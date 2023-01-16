@@ -72,6 +72,9 @@ export default {
   background-color: #e2e8f0;
 }
 
+.keyboard-button:hover{
+  filter: brightness(90%)
+}
 .send{
     width: 5rem;
 }
@@ -79,5 +82,4 @@ export default {
 .del{
     width: 3.8rem;
 }
-
 </style>

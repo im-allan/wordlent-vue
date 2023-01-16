@@ -1,17 +1,18 @@
 <template>
       <h1> Wordlen't</h1>
-    
     <div id="game-board">
     </div>
-    <!-- {{ initBoard }} -->
 </template>
 
 <script>
 export default {
+  data: () => ({
+    number_of_guesses: 6,
+  }),
   methods:{
     initBoard() {
       const board = document.getElementById("game-board")
-      for (let i = 0; i < import.meta.env.VITE_NUMBER_OF_GUESSES; i++) {
+      for (let i = 0; i < this.number_of_guesses; i++) {
           let row = document.createElement("div")
           row.className = "letter-row"
 

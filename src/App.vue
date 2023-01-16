@@ -1,7 +1,6 @@
 <script setup>
-// import HelloWorld from "./components/HelloWorld.vue";
-// import TheWelcome from "./components/TheWelcome.vue";
 import WordlePage from './pages/WordlePage.vue';
+import "@fontsource/roboto";
 </script>
 
 <template>

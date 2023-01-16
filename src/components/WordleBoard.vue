@@ -1,5 +1,5 @@
 <template>
-      <h1> Wordle Clone </h1>
+      <h1> Wordlen't</h1>
     
     <div id="game-board">
     </div>
@@ -42,20 +42,20 @@ h1 {
   flex-direction: column;
 }
 .letter-box {
-  border: 1px solid gray;
+  border: 2px solid #e0e0e0;
   border-radius: 3px;
   margin: 2px;
-  font-size: 2.5rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  height: 3rem;
-  width: 3rem;
+  height: 3.5rem;
+  width: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
 }
 .filled-box {
-  border: 2px solid black;
+  border: 2px solid #e0e0e0;
 }
 .letter-row {
   display: flex;

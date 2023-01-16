@@ -39,151 +39,8 @@
 </template>
 
 <script>
-// export default {
-//   methods:{
-//     insertLetter (pressedKey) {
-//       if (import.meta.env.VITE_nextLetter === 5) {
-//           return
-//       }
-//       pressedKey = pressedKey.toLowerCase()
-
-//       let row = document.getElementsByClassName("letter-row")[6 - import.meta.env.VITE_guessesRemaining]
-//       let box = row.children[import.meta.env.VITE_nextLetter]
-//       box.textContent = pressedKey
-//       box.classList.add("filled-box")
-//       import.meta.env.VITE_currentGuess.push(pressedKey)
-//       import.meta.env.VITE_nextLetter += 1
-//     },
-//     deleteLetter () {
-//       let row = document.getElementsByClassName("letter-row")[6 - import.meta.env.VITE_guessesRemaining]
-//       console.log(row);
-//       let box = row.children[import.meta.env.VITE_nextLetter - 1]
-//       box.textContent = ""
-//       box.classList.remove("filled-box")
-//       import.meta.env.VITE_currentGuess.pop()
-//       import.meta.env.VITE_nextLetter -= 1
-//     },
-
-
-//     checkGuess () {
-//       let row = document.getElementsByClassName("letter-row")[6 - import.meta.env.VITE_guessesRemaining]
-//       let guessString = ''
-//       let rightGuess = Array.from(import.meta.env.VITE_rightGuessString)
-
-//       for (const val of import.meta.env.VITE_currentGuess) {
-//           guessString += val
-//       }
-
-//       if (guessString.length != 5) {
-//           toastr.error("Not enough letters!")
-//           return
-//       }
-
-//       if (!WORDS.includes(guessString)) {
-//           toastr.error("Word not in list!")
-//           return
-//       }
-
-      
-//       for (let i = 0; i < 5; i++) {
-//           let letterColor = ''
-//           let box = row.children[i]
-//           let letter = import.meta.env.VITE_currentGuess[i]
-          
-//           let letterPosition = rightGuess.indexOf(import.meta.env.VITE_currentGuess[i])
-//           // is letter in the correct guess
-//           if (letterPosition === -1) {
-//               letterColor = 'grey'
-//           } else {
-//               // now, letter is definitely in word
-//               // if letter index and right guess index are the same
-//               // letter is in the right position 
-//               if (import.meta.env.VITE_currentGuess[i] === rightGuess[i]) {
-//                   // shade green 
-//                   letterColor = 'green'
-//               } else {
-//                   // shade box yellow
-//                   letterColor = 'yellow'
-//               }
-
-//               rightGuess[letterPosition] = "#"
-//           }
-
-//           let delay = 250 * i
-//           setTimeout(()=> {
-//               //shade box
-//               box.style.backgroundColor = letterColor
-//               shadeKeyBoard(letter, letterColor)
-//           }, delay)
-//       }
-
-//       if (guessString === import.meta.env.VITE_rightGuessString) {
-//           alert("You guessed right! Game over!")
-//           import.meta.env.VITE_guessesRemaining = 0
-//           return
-//       } else {
-//           import.meta.env.VITE_guessesRemaining -= 1;
-//           import.meta.env.VITE_currentGuess = [];
-//           import.meta.env.VITE_nextLetter = 0;
-
-//           if (import.meta.env.VITE_guessesRemaining === 0) {
-//               alert("You've run out of guesses! Game over!")
-//               alert(`The right word was: "${import.meta.env.VITE_rightGuessString}"`)
-//           }
-//       }
-//     },
-//     onClick(e){
-//       // console.log(e.key?e.key : e.target.value);
-//       if (import.meta.env.VITE_guessesRemaining === 0) {
-//         return
-//     }
-//       let pressedKey = String(e.key?e.key : e.target.value)
-//       console.log(pressedKey);
-//       if (pressedKey === "Backspace" && import.meta.env.VITE_nextLetter !== 0) {
-//           this.deleteLetter()
-//           return
-//       }
-
-//       if (pressedKey === "Enter") {
-//           // checkGuess()
-//           return
-//       }
-
-//       let found = pressedKey.match(/[a-z]/gi)
-//       if (!found || found.length > 1) {
-//           return
-//       } else {
-//           // this.insertLetter(pressedKey)
-//       }
-//     },
-
-//     shadeKeyBoard(letter, color) {
-//       for (const elem of document.getElementsByClassName("keyboard-button")) {
-//           if (elem.textContent === letter) {
-//               let oldColor = elem.style.backgroundColor
-//               if (oldColor === 'green') {
-//                   return
-//               } 
-//               if (oldColor === 'yellow' && color !== 'green') {
-//                   return
-//               }
-//               elem.style.backgroundColor = color
-//               break
-//           }
-//       }
-//     }
-//   },
-//   mounted(){
-
-//     ['click','keyup'].forEach( evt => 
-//     window.addEventListener(evt, e => {
-//       this.onClick(e)})
-//     );
-//     window.addEventListener("keyup", e => {
-//       // console.log(String.fromCharCode(e.key));
-//   })
-//   }
-// }
+export default {
+}
 </script>
 
 <style>
@@ -212,6 +69,7 @@
   margin: 0 2px;
   text-transform: uppercase;
   width: 2.9rem;
+  background-color: #e2e8f0;
 }
 
 .send{

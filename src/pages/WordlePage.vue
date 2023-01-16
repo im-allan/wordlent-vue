@@ -31,6 +31,7 @@ export default {
 
         let row = document.getElementsByClassName("letter-row")[6 - this.guessesRemaining]
         let box = row.children[this.nextLetter]
+        this.animateCSS(box, "pulse")
         box.textContent = pressedKey
         box.classList.add("filled-box")
         this.currentGuess.push(pressedKey)
@@ -41,7 +42,6 @@ export default {
                 let box = row.children[this.nextLetter - 1]
                 box.textContent = ""
                 box.classList.remove("filled-box")
-                console.log(this.currentGuess);
                 this.result = this.currentGuess.pop()
                 this.nextLetter -= 1
                 return
@@ -50,18 +50,23 @@ export default {
         let row = document.getElementsByClassName("letter-row")[6 - this.guessesRemaining]
         let guessString = ''
         let rightGuess = Array.from(this.rightGuessString)
-
-        for (const val of this.currenGuess) {
+        for (const val of JSON.parse(JSON.stringify(this.currentGuess))) {
             guessString += val
         }
-
         if (guessString.length != 5) {
-            toastr.error("Not enough letters!")
+            this.$toast.show("No hay suficientes letras!",{
+                type: 'error',
+                position: 'top',
+                duration: 1500,
+            })
             return
         }
-
         if (!WORDS.includes(guessString)) {
-            toastr.error("Word not in list!")
+            this.$toast.show("La palabra no está en la lista",{
+                type: 'error',
+                position: 'top',
+                duration: 1500,
+            })
             return
         }
 
@@ -69,9 +74,9 @@ export default {
         for (let i = 0; i < 5; i++) {
             let letterColor = ''
             let box = row.children[i]
-            let letter = this.currenGuess[i]
+            let letter = JSON.parse(JSON.stringify(this.currentGuess[i]))
             
-            let letterPosition = rightGuess.indexOf(this.currenGuess[i])
+            let letterPosition = rightGuess.indexOf(JSON.parse(JSON.stringify(this.currentGuess[i])))
             // is letter in the correct guess
             if (letterPosition === -1) {
                 letterColor = 'grey'
@@ -79,12 +84,12 @@ export default {
                 // now, letter is definitely in word
                 // if letter index and right guess index are the same
                 // letter is in the right position 
-                if (this.currenGuess[i] === rightGuess[i]) {
+                if (JSON.parse(JSON.stringify(this.currentGuess[i])) === rightGuess[i]) {
                     // shade green 
-                    letterColor = 'green'
+                    letterColor = '#3F9629'
                 } else {
                     // shade box yellow
-                    letterColor = 'yellow'
+                    letterColor = '#FFC403'
                 }
 
                 rightGuess[letterPosition] = "#"
@@ -92,29 +97,42 @@ export default {
 
             let delay = 250 * i
             setTimeout(()=> {
+                this.animateCSS(box, 'flipInX')
                 //shade box
                 box.style.backgroundColor = letterColor
-                shadeKeyBoard(letter, letterColor)
+                box.style.color = 'white'
+                this.shadeKeyBoard(letter, letterColor)
             }, delay)
         }
 
         if (guessString === this.rightGuessString) {
-            alert("You guessed right! Game over!")
+            this.$toast.show("¡Lo adivinaste! ¡Juego terminado!",{
+                    type: 'success',
+                    position: 'top',
+                    duration: 5000,
+                })
             this.guessesRemaining = 0
             return
         } else {
-            this.guessesRemaining -= 1;
-            this.currenGuess = [];
-            this.nextLetter = 0;
-
+            this.guessesRemaining = this.guessesRemaining -= 1;
+            this.currentGuess = this.currenGuess = [];
+            this.result = this.result = '';
+            this.nextLetter = this.nextLetter = 0;
             if (this.guessesRemaining === 0) {
-                alert("You've run out of guesses! Game over!")
-                alert(`The right word was: "${this.rightGuessString}"`)
+                this.$toast.show("¡Te has quedado sin turnos! ¡Juego terminado!",{
+                    type: 'error',
+                    position: 'top',
+                    duration: 5000,
+                })
+                this.$toast.show(`La palabra correcta era: "${this.rightGuessString}"`,{
+                    type: 'info',
+                    position: 'top',
+                    duration: 5000,
+                })
             }
         }
         },
         onClick(e){
-        // console.log(e.key?e.key : e.target.value);
         if (this.guessesRemaining === 0) {
             return
         }
@@ -125,7 +143,7 @@ export default {
         }
 
         if (pressedKey === "Enter") {
-            // checkGuess()
+            this.checkGuess()
             return
         }
 
@@ -136,25 +154,48 @@ export default {
             this.insertLetter(pressedKey)
         }
         },
-
         shadeKeyBoard(letter, color) {
         for (const elem of document.getElementsByClassName("keyboard-button")) {
             if (elem.textContent === letter) {
                 let oldColor = elem.style.backgroundColor
-                if (oldColor === 'green') {
+                if (oldColor === '#3F9629') {
                     return
                 } 
-                if (oldColor === 'yellow' && color !== 'green') {
+                if (oldColor === '#FFC403' && color !== '#3F9629') {
                     return
                 }
                 elem.style.backgroundColor = color
+                elem.style.color = 'white'
                 break
             }
         }
-        }
+        },
+        animateCSS (element, animation, prefix = 'animate__') {
+            // We create a Promise and return it
+            new Promise((resolve, reject) => {
+            const animationName = `${prefix}${animation}`;
+            // const node = document.querySelector(element);
+            const node = element
+            node.style.setProperty('--animate-duration', '0.3s');
+            
+            node.classList.add(`${prefix}animated`, animationName);
+
+            // When the animation ends, we clean the classes and resolve the Promise
+            function handleAnimationEnd(event) {
+            event.stopPropagation();
+            node.classList.remove(`${prefix}animated`, animationName);
+            resolve('Animation ended');
+            }
+            node.addEventListener('animationend', handleAnimationEnd, {once: true});
+        });
+
+}
+
+
+
+
     },
     mounted(){
-
         ['click','keyup'].forEach( evt => 
         window.addEventListener(evt, e => {
         this.onClick(e)})
@@ -167,5 +208,12 @@ export default {
 </script>
 
 <style>
+
+@media (max-width: 520px) {
+    html, body{
+        
+        font-size: 12px;
+    }
+}
 
 </style>

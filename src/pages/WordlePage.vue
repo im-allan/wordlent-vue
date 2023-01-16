@@ -51,8 +51,6 @@ export default {
         let row = document.getElementsByClassName("letter-row")[6 - this.guessesRemaining]
         let guessString = ''
         let rightGuess = Array.from(this.rightGuessString)
-
-        console.log(rightGuess);
         for (const val of JSON.parse(JSON.stringify(this.currentGuess))) {
             guessString += val
         }

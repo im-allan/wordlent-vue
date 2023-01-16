@@ -4,7 +4,8 @@
 
     <!-- TODO: Wordle keyboard -->
     <WordleKeyboard/>
-
+    <br>
+        <button @click="newGame" type="button" class="keyboard-button new-game">Nuevo juego</button>
 </template>
 
 <script>
@@ -50,6 +51,8 @@ export default {
         let row = document.getElementsByClassName("letter-row")[6 - this.guessesRemaining]
         let guessString = ''
         let rightGuess = Array.from(this.rightGuessString)
+
+        console.log(rightGuess);
         for (const val of JSON.parse(JSON.stringify(this.currentGuess))) {
             guessString += val
         }
@@ -102,6 +105,9 @@ export default {
                     duration: 5000,
                 })
             this.guessesRemaining = 0
+            document.querySelector('.new-game').style.display = 'block'
+            document.querySelector('.new-game').style.color = 'white'
+            document.querySelector('.new-game').style.backgroundColor = '#43a047'
             return
         } else {
             this.guessesRemaining = this.guessesRemaining -= 1;
@@ -119,6 +125,9 @@ export default {
                     position: 'top',
                     duration: 5000,
                 })
+                document.querySelector('.new-game').style.display = 'block'
+                document.querySelector('.new-game').style.backgroundColor = 'white'
+                document.querySelector('.new-game').style.backgroundColor = '#43a047'
             }
         }
         },
@@ -126,6 +135,8 @@ export default {
         if (this.guessesRemaining === 0) {
             return
         }
+
+        
         let pressedKey = String(e.key?e.key : e.target.value)
         if (pressedKey === "Backspace" && this.nextLetter !== 0) {
             this.deleteLetter()
@@ -135,7 +146,7 @@ export default {
             this.checkGuess()
             return
         }
-        let found = pressedKey.match(/[a-z]/gi)
+        let found = pressedKey.match(/[a-z\u00f1]/gi)
         if (!found || found.length > 1) {
             return
         } else {
@@ -171,7 +182,27 @@ export default {
             }
             node.addEventListener('animationend', handleAnimationEnd, {once: true});
         });
-}
+        },
+        newGame(){
+            document.querySelector('.new-game').style.transition = 'all .5s ease';
+            document.querySelector('.new-game').style.display = 'none';
+            this.currentGuess = this.currentGuess = [],
+            this.guessesRemaining = this.guessesRemaining = 6;
+            this.nextLetter = this.nextLetter =  0;
+            this.result = this.result = '';
+            this.rightGuessString = this.rightGuessString =  WORDS[Math.floor(Math.random() * WORDS.length)];
+            document.querySelectorAll('.letter-box').forEach(letter =>{
+                letter.style.transition = "all .5s ease"
+                letter.style.backgroundColor = 'white'
+                letter.style.color = 'black'
+                letter.textContent = ''
+            })
+            document.querySelectorAll('.keyboard-button').forEach(letter =>{
+                letter.style.transition = "all .5s ease"
+                letter.style.backgroundColor = '#e2e8f0';
+                letter.style.color = 'black';
+            })
+        }
     },
     mounted(){
         ['click','keyup'].forEach( evt => 
@@ -183,6 +214,21 @@ export default {
 </script>
 
 <style>
+
+.new-game{
+  width: 8rem;
+  background-color: #43a047;
+  color: white;
+  font-size: .9rem;
+  justify-content: center;
+  margin-left: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  display: none;
+  transition: all .5s ease;
+}
+
 
 @media (max-width: 520px) {
     html, body{     
